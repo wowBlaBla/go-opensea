@@ -3,8 +3,6 @@ package opensea
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"net/url"
 )
 
@@ -45,18 +43,4 @@ func (c *OpenSeaClient) GetOrders(contract_addr string, token_id int, side int) 
 	// }
 
 	return osResp, nil
-
-	req, _ := http.NewRequest("GET", url, nil)
-
-	req.Header.Add("Accept", "application/json")
-	req.Header.Add("X-API-KEY", "5de1db9cee694d7d91d7f80669c57659")
-
-	res, _ := http.DefaultClient.Do(req)
-
-	defer res.Body.Close()
-	body, _ := ioutil.ReadAll(res.Body)
-
-	fmt.Println(res)
-	fmt.Println(string(body))
-
 }
