@@ -6,7 +6,7 @@ import (
 	"net/url"
 )
 
-func (c *OpenSeaClient) GetCheapestOrders(contract_addr string, token_id int, side int) (map[string]interface{}, error) {
+func (c *OpenSeaClient) GetCheapestOrders(contract_addr string, token_id string, side string) (map[string]interface{}, error) {
 	var osResp map[string]interface{}
 	u, err := url.Parse(fmt.Sprintf("%s/wyvern/v1/orders", c.baseURL))
 	if err != nil {
@@ -17,8 +17,8 @@ func (c *OpenSeaClient) GetCheapestOrders(contract_addr string, token_id int, si
 	// Set query params
 	q := u.Query()
 	q.Set("asset_contract_address", contract_addr)
-	q.Set("token_id", fmt.Sprintf("%d", token_id))
-	q.Set("side", fmt.Sprintf("%d", side))
+	q.Set("token_id", token_id)
+	q.Set("side", side)
 	q.Set("bundled", "false")
 	q.Set("include_bundled", "false")
 	q.Set("order_by", "eth_price")
