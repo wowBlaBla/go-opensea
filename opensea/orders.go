@@ -8,9 +8,9 @@ import (
 	"net/url"
 )
 
-func GetOrders() {
-	var osResp GetOrdersResponse
-	u, err := url.Parse(fmt.Sprintf("%s/api/v1/assets", c.baseURL))
+func (c *OpenSeaClient) GetOrders(contract_addr string, token_id int, side int) (map[string]interface{}, error) {
+	var osResp map[string]interface{}
+	u, err := url.Parse(fmt.Sprintf("%s/api/v1/orders", c.baseURL))
 	if err != nil {
 		c.Log.Errorf("Error parsing url: %s", err)
 		return osResp, err
@@ -18,14 +18,14 @@ func GetOrders() {
 
 	// Set query params
 	q := u.Query()
-	q.Set("owner", owner)
-	q.Set("limit", fmt.Sprint(c.limitAssets))
-	q.Set("offset", fmt.Sprint(offset))
+	q.Set("asset_contract_address", contract_addr)
+	q.Set("token_id", fmt.Sprintf("%d", token_id))
+	q.Set("side", fmt.Sprintf("%d", side))
 	u.RawQuery = q.Encode()
 
 	resp, err := c.Get(u)
 	if err != nil {
-		c.Log.Errorf("Error getting assets: %s", err)
+		c.Log.Errorf("Error getting Orders: %s", err)
 		return osResp, err
 	}
 	defer resp.Body.Close()
@@ -36,17 +36,15 @@ func GetOrders() {
 		return osResp, err
 	}
 
-	// TODO: Filter out assets with hidden collections
-	// var filtered = []Asset{}
-	// for _, asset := range osResp.Assets {
-	// 	if !asset.Collection.Hidden {
-	// 		filtered = append(filtered, asset)
+	// TODO: Filter out Orders with hidden collections
+	// var filtered = []Order{}
+	// for _, Order := range osResp.Orders {
+	// 	if !Order.Collection.Hidden {
+	// 		filtered = append(filtered, Order)
 	// 	}
 	// }
 
 	return osResp, nil
-
-	url := "https://api.opensea.io/wyvern/v1/orders?asset_contract_address=0x1a92f7381b9f03921564a437210bb9396471050c&bundled=false&include_bundled=false&token_id=6069&side=1&limit=20&offset=0&order_by=created_date&order_direction=desc"
 
 	req, _ := http.NewRequest("GET", url, nil)
 

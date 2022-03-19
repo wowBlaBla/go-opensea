@@ -24,6 +24,7 @@ type Asset struct {
 	ImagePreviewURL         string             `json:"image_preview_url"`
 	ImageThumbnailURL       string             `json:"image_thumbnail_url"`
 	ImageURL                string             `json:"image_url"`
+	IsNsfw                  bool               `json:"is_nsfw"`
 	IsPresale               bool               `json:"is_presale"`
 	LastSale                AssetLastSale      `json:"last_sale"`
 	ListingDate             string             `json:"listing_date"`
