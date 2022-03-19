@@ -48,8 +48,8 @@ func (c *OpenSeaClient) GetRequest(u *url.URL) (*http.Request, error) {
 		return nil, err
 	}
 
-	req.Header.Set("X-API-KEY", c.apiKey)
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/json")
+	req.Header.Add("X-API-KEY", c.apiKey)
 
 	return req, nil
 }
